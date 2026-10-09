@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Alert, Badge, Button, Card, EmptyState, Input, Spinner, Textarea } from '#lib/components/ui';
+  import { Alert, Badge, Button, Card, EmptyState, Input, Spinner, Textarea } from '#lib/components/ui/index.ts';
 
   let name = $state('');
   let notes = $state('');

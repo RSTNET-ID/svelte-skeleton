@@ -19,7 +19,7 @@ Reusable primitives live at `src/lib/components/ui` and are re-exported from `sr
 
 ```svelte
 <script lang="ts">
-  import { Button, Input, Card, Badge } from '#lib/components/ui';
+  import { Button, Input, Card, Badge } from '#lib/components/ui/index.ts';
 
   let query = $state('');
 </script>
