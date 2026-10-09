@@ -11,7 +11,7 @@ test('confirmation dialog traps focus, escapes and restores trigger focus', asyn
 	await expect(dialog).toBeHidden();
 	await expect(trigger).toBeFocused();
 	await trigger.click();
-	await page.getByRole('button', { name: 'Confirm', exact: true }).click();
+	await dialog.getByRole('button').last().click();
 	await expect(page.getByText('Sample confirmed')).toBeVisible();
 	await expect(trigger).toBeFocused();
 });
