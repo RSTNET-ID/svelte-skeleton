@@ -29,3 +29,8 @@
 This is a reusable baseline, not a completed security assessment of the applications derived from it.
 
 API consumer modules can supply a runtime decoder to `requestJson(fetcher, options, decode)`; TypeScript generics by themselves do not validate external JSON.
+
+## Frontend protections checked in code
+- `backendApi` disallows automatically following upstream redirects with credentials and restricts API paths to root-relative paths.
+- CMS identity responses are decoded from unknown at the server boundary; malformed permissions fail closed.
+- A real Bun API is still required to verify cross-tenant access control, cookie and CSRF semantics, logout invalidation and presigned ticket authorization.

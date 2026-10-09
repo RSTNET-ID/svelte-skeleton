@@ -206,3 +206,8 @@ Code review rejection criteria: any new page-local native input, duplicated help
 - Never decode, concatenate, infer or persist cursor internals in client code. Backend must sign/validate cursor scope and ensure stable ordering with a unique tie-breaker, tenant and permission filters.
 - Total count is optional and may be expensive; do not require it for cursor pagination. Offset contracts are explicitly named legacy opt-ins.
 - SelectAjax should use cursor pagination only for incremental large option lists; basic typeahead may return a bounded set without pagination.
+
+## Production identity and proxy security
+- Treat `/auth/me` as `unknown` and decode it with `decodeCmsIdentity` before rendering CMS or checking permissions.
+- SvelteKit must never follow Bun backend redirects while forwarding cookies or authorization headers. Only root-relative internal API paths may be used.
+- A valid frontend check is not a substitute for Bun endpoint permission enforcement, tenant isolation or CSRF controls. Test these against the deployed backend before handling sensitive data.
