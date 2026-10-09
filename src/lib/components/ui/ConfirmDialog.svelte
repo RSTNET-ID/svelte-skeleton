@@ -18,7 +18,7 @@
 
 {#if open}
   <div class="fixed inset-0 z-50 grid place-items-center bg-slate-950/60 p-4">
-    <div role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-description" class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl dark:bg-slate-900" onkeydown={(event) => { if (event.key === 'Escape' && !busy) oncancel(); }}>
+    <div role="alertdialog" tabindex="-1" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-description" class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl dark:bg-slate-900" onkeydown={(event) => { if (event.key === 'Escape' && !busy) oncancel(); }}>
       <h2 id="confirm-title" class="text-lg font-bold">{title}</h2>
       <p id="confirm-description" class="mt-2 text-sm text-slate-600 dark:text-slate-300">{description}</p>
       <div class="mt-6 flex justify-end gap-2">
