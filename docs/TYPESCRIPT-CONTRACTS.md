@@ -14,8 +14,8 @@ Example:
 import type { PaginatedResponse } from '#lib/api/contracts.ts';
 
 interface UserSummary {
-  id: string;
-  name: string;
+	id: string;
+	name: string;
 }
 
 type UserPage = PaginatedResponse<UserSummary>;
