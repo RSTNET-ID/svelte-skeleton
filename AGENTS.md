@@ -149,3 +149,10 @@ Code review rejection criteria: any new page-local native input, duplicated help
 - Use locale-aware `Intl` formatters and explicitly supplied time zone for dates and currency. Backend field values and API enum codes must never be translated as storage values.
 - Keep translations in a small local dictionary; do not add a heavy internationalization runtime by default.
 - Add tests for translation keys, interpolation and locale validation when modifying the i18n layer.
+
+## Server-side tables (mandatory)
+
+- Use shared `DataTable` for recurring CMS tabular datasets. Never re-create search, pagination, sorting or fetch orchestration per page.
+- Backend owns pagination, sorting, filtering and authorization; use explicit allowlists for sortable fields, stable sort, bounded page sizes and tenant filters.
+- Pass `AbortSignal` to fetch. Never send a request on each keypress; debounce is mandatory.
+- All visible table text and application column titles must have ID and EN translations. Do not render unsanitized HTML from API payloads.
