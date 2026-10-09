@@ -28,20 +28,46 @@
 
 	$effect(() => {
 		if (!open) return;
-		const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-		void tick().then(() => { if (open) dialog?.focus(); });
+		const previouslyFocused =
+			document.activeElement instanceof HTMLElement ? document.activeElement : null;
+		void tick().then(() => {
+			if (open) dialog?.focus();
+		});
 		function handleKey(event: KeyboardEvent) {
-			if (event.key === 'Escape' && !busy) { event.preventDefault(); oncancel(); return; }
+			if (event.key === 'Escape' && !busy) {
+				event.preventDefault();
+				oncancel();
+				return;
+			}
 			if (event.key !== 'Tab' || !dialog) return;
-			const focusable = Array.from(dialog.querySelectorAll<HTMLElement>('button:not([disabled]), a[href], input:not([disabled]), [tabindex]:not([tabindex="-1"])'));
-			if (!focusable.length) { event.preventDefault(); dialog.focus(); return; }
+			const focusable = Array.from(
+				dialog.querySelectorAll<HTMLElement>(
+					'button:not([disabled]), a[href], input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+				)
+			);
+			if (!focusable.length) {
+				event.preventDefault();
+				dialog.focus();
+				return;
+			}
 			const first = focusable[0];
 			const last = focusable[focusable.length - 1];
-			if (event.shiftKey && (document.activeElement === first || document.activeElement === dialog)) { event.preventDefault(); last.focus(); }
-			else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+			if (
+				event.shiftKey &&
+				(document.activeElement === first || document.activeElement === dialog)
+			) {
+				event.preventDefault();
+				last.focus();
+			} else if (!event.shiftKey && document.activeElement === last) {
+				event.preventDefault();
+				first.focus();
+			}
 		}
 		document.addEventListener('keydown', handleKey);
-		return () => { document.removeEventListener('keydown', handleKey); previouslyFocused?.focus(); };
+		return () => {
+			document.removeEventListener('keydown', handleKey);
+			previouslyFocused?.focus();
+		};
 	});
 </script>
 
@@ -55,7 +81,6 @@
 			aria-labelledby={`${uid}-title`}
 			aria-describedby={`${uid}-description`}
 			class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl dark:bg-slate-900"
-			
 		>
 			<h2 id={`${uid}-title`} class="text-lg font-bold">{title}</h2>
 			<p id={`${uid}-description`} class="mt-2 text-sm text-slate-600 dark:text-slate-300">
