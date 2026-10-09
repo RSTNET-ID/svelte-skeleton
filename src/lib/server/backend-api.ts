@@ -8,6 +8,10 @@ export type BackendApiOptions = Omit<ApiRequestOptions, 'baseUrl' | 'requestId' 
 
 export function backendApi<T>(event: RequestEvent, options: BackendApiOptions): Promise<T> {
 	const { forwardAuth = true, ...requestOptions } = options;
+	// Auth-bearing server requests must never follow caller-supplied absolute URLs.
+	if (!requestOptions.path.startsWith('/') || requestOptions.path.startsWith('//') || /[\\\\]/.test(requestOptions.path)) {
+		throw new TypeError('Backend API path must be a root-relative path');
+	}
 	const headers = new Headers(requestOptions.headers);
 
 	if (forwardAuth) {
