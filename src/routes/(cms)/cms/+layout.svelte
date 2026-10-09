@@ -13,11 +13,11 @@
 	let { children }: { children: Snippet } = $props();
 	let mobileOpen = $state(false);
 	const permissions = $derived(page.data.user?.permissions ?? []);
-	const visibleMenu = $derived(menu.filter((item) => canAccess(permissions, item.permission)));
 	const menu = [
 		{ href: '/cms', title: 'nav.dashboard', icon: LayoutDashboard, permission: undefined },
 		{ href: '/cms/components', title: 'nav.components', icon: PanelsTopLeft, permission: 'cms.components.read' }
 	];
+	const visibleMenu = $derived(menu.filter((item) => canAccess(permissions, item.permission)));
 </script>
 
 <svelte:head><meta name="robots" content="noindex, nofollow" /></svelte:head>
