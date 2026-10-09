@@ -24,7 +24,8 @@ const files: Record<string, string> = {
 
 export interface ${pascal}List {
   items: ${pascal}Item[];
-  total: number;
+  nextCursor: string | null;
+  hasNextPage: boolean;
 }
 `,
 	'api.ts': `import { apiFetch } from '#lib/api/client.ts';
