@@ -9,7 +9,8 @@
 		Spinner,
 		Textarea,
 		Tabs,
-		Checkbox
+		Checkbox,
+		ConfirmDialog
 	} from '#lib/components/ui/index.ts';
 
 	let name = $state('');
@@ -18,6 +19,8 @@
 	let submitted = $state(false);
 	let activeTab = $state('first');
 	let accepted = $state(false);
+	let confirmOpen = $state(false);
+	let confirmed = $state(false);
 	const sampleTabs = [
 		{ value: 'first', label: 'First' },
 		{ value: 'second', label: 'Second' }
@@ -118,6 +121,12 @@
 			</Tabs>
 			<div class="mt-4"><Checkbox label="Accept sample" bind:checked={accepted} /></div>
 			<p role="status" class="mt-2">{accepted ? 'Accepted' : 'Not accepted'}</p>
+		</Card>
+		<Card>
+			{#snippet header()}<h2 class="text-lg font-semibold">Confirmation dialog</h2>{/snippet}
+			<Button onclick={() => (confirmOpen = true)}>Open confirmation</Button>
+			{#if confirmed}<p role="status">Sample confirmed</p>{/if}
+			<ConfirmDialog open={confirmOpen} title="Confirm sample" description="Proceed with sample action?" oncancel={() => (confirmOpen = false)} onconfirm={() => { confirmed = true; confirmOpen = false; }} />
 		</Card>
 		<div class="lg:col-span-2">
 			<EmptyState
