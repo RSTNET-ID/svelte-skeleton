@@ -1,37 +1,25 @@
-# Server-side DataTable
+# Server-side DataTable: Cursor pagination
 
-Import `DataTable` from `#lib/components/ui/index.ts`. The generic component accepts `columns`, `rowKey`, `fetchPage`, `pageSizes`, `debounceMs` and `initialPageSize`.
+The reusable `DataTable` uses **cursor-based** pagination by default. Import it from `#lib/components/ui/index.ts` and pass `columns`, `fetchPage`, and `rowKey`.
 
-`fetchPage(query, signal)` returns `{ items, total }`. Query includes `page` (1-based), `pageSize`, `search`, optional `sortBy` and `sortDir`. The callback must use AbortSignal with fetch, and the Bun API must enforce a maximum page size, allowlisted sort columns, tenant/permission filters and stable ordering.
+`fetchPage(query, signal)` receives `{ cursor: string | null, limit: number, search: string, sortBy?, sortDir? }` and returns `{ items, nextCursor, hasNextPage, total? }`. Never send `page` or `OFFSET` to the Bun backend.
 
-Sorting, search and pagination execute on the server. Typing is debounced, old requests are cancelled and stale responses ignored. Generic cells support `value(row)` for display formatting. Never inject raw HTML from API data.
+The frontend treats each cursor as an opaque string, stores a history to support Previous, and resets cursor history when search, sorting or limit changes. The user-visible page index describes navigation history, not an offset. Total count is optional.
 
-All captions use shared ID/EN dictionaries. The DataTable internally uses mandatory base Input/Select/Button components. Do not implement page-local table form controls.
+The Bun backend MUST enforce a bounded limit, stable keyset ordering (e.g. `created_at DESC, id DESC`), consistent null ordering, sort-field allowlists, tenant scoping and permission filters. Sign or validate cursor payloads, including filters and expiration. Cursors from other filter contexts must be rejected. Search is debounced and old requests are aborted.
 
-Example:
-
-```svelte
-<script lang="ts">
-	import { DataTable } from '#lib/components/ui/index.ts';
-	const columns = [
-		{ key: 'name', title: 'Name', sortable: true },
-		{ key: 'email', title: 'Email' }
-	];
-	async function fetchPage(query, signal) {
-		const url =
-			'/api/users?' +
-			new URLSearchParams({
-				page: String(query.page),
-				limit: String(query.pageSize),
-				search: query.search,
-				sort: query.sortBy ?? '',
-				order: query.sortDir ?? 'asc'
-			});
-		const response = await fetch(url, { signal, credentials: 'include' });
-		if (!response.ok) throw new Error('Failed to load users');
-		return response.json(); // { items, total }
-	}
-</script>
-
-<DataTable {columns} {fetchPage} rowKey={(row) => String(row.id)} />
+```ts
+import type { CursorPageQuery, CursorPageResponse } from '#lib/api/contracts.ts';
+interface User { id: string; name: string }
+async function fetchUsers(query: CursorPageQuery, signal: AbortSignal): Promise<CursorPageResponse<User>> {
+  const params = new URLSearchParams({ limit: String(query.limit), search: query.search ?? '' });
+  if (query.cursor) params.set('cursor', query.cursor);
+  if (query.sortBy) params.set('sortBy', query.sortBy);
+  if (query.sortDir) params.set('sortDir', query.sortDir);
+  const response = await fetch('/api/users?' + params, { signal, credentials: 'include' });
+  if (!response.ok) throw new Error('Unable to load users');
+  return response.json(); // validate structure at the API boundary in production
+}
 ```
+
+Legacy offset contracts, when required for a specific endpoint, are explicitly named `OffsetPageQuery` and `OffsetPaginatedResponse<T>` and are **not** the DataTable default.

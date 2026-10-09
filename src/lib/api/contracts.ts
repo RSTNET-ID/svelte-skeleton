@@ -6,7 +6,7 @@ export interface ApiResponse<TData> {
 	code?: string;
 }
 
-export interface PaginatedResponse<TItem> {
+export interface OffsetPaginatedResponse<TItem> {
 	items: TItem[];
 	total: number;
 	page: number;
@@ -20,10 +20,26 @@ export interface ApiFieldErrors {
 
 export type ApiSortDirection = 'asc' | 'desc';
 
-export interface ApiPageQuery {
+export interface OffsetPageQuery {
 	page: number;
 	pageSize: number;
 	search?: string;
 	sortBy?: string;
 	sortDir?: ApiSortDirection;
+}
+
+/** Default pagination contract. Cursors are opaque and bound to the current filter/sort. */
+export interface CursorPageQuery {
+	cursor?: string | null;
+	limit: number;
+	search?: string;
+	sortBy?: string;
+	sortDir?: ApiSortDirection;
+}
+
+export interface CursorPageResponse<TItem> {
+	items: TItem[];
+	nextCursor: string | null;
+	hasNextPage: boolean;
+	total?: number;
 }

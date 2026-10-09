@@ -30,8 +30,8 @@ export interface ${pascal}List {
 	'api.ts': `import { apiFetch } from '#lib/api/client.ts';
 import type { ${pascal}List } from './types.ts';
 
-export function list${pascal}(signal?: AbortSignal): Promise<${pascal}List> {
-  return apiFetch<${pascal}List>({ path: '/${name}', method: 'GET', signal });
+export function list${pascal}(cursor: string | null = null, signal?: AbortSignal): Promise<${pascal}List> {
+  return apiFetch<${pascal}List>({ path: '/${name}' + (cursor ? '?cursor=' + encodeURIComponent(cursor) : ''), method: 'GET', signal });
 }
 `,
 	'README.md': `# ${pascal} module

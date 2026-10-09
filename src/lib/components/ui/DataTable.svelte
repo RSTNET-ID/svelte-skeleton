@@ -10,10 +10,10 @@
 		sortable?: boolean;
 		value?: (row: T) => string | number | null | undefined;
 	};
-	type DataPage<T> = { items: T[]; total: number };
+	type DataPage<T> = { items: T[]; nextCursor: string | null; hasNextPage: boolean; total?: number };
 	type DataQuery = {
-		page: number;
-		pageSize: number;
+		cursor: string | null;
+		limit: number;
 		search: string;
 		sortBy?: string;
 		sortDir?: 'asc' | 'desc';
@@ -35,19 +35,22 @@
 		initialPageSize = 10
 	}: Props = $props();
 	const locale = $derived(currentPage.data.locale ?? 'id');
-	let page = $state(1);
+	let cursorIndex = $state(0);
+	let cursorHistory = $state<(string | null)[]>([null]);
+	const cursor = $derived(cursorHistory[cursorIndex] ?? null);
 	let pageSize = $state(10);
 	let search = $state('');
 	let debouncedSearch = $state('');
 	let sortBy = $state<string | undefined>(undefined);
 	let sortDir = $state<'asc' | 'desc'>('asc');
 	let rows = $state<T[]>([]);
-	let total = $state(0);
+	let total = $state<number | undefined>(undefined);
+	let nextCursor = $state<string | null>(null);
+	let hasNextPage = $state(false);
 	let loading = $state(false);
 	let errorMessage = $state('');
 	let refresh = $state(0);
 	let mounted = $state(false);
-	const totalPages = $derived(Math.max(1, Math.ceil(total / pageSize)));
 	const sizeOptions = $derived(pageSizes.map((n) => ({ value: String(n), label: String(n) })));
 
 	onMount(() => {
@@ -62,7 +65,7 @@
 		const timer = setTimeout(
 			() => {
 				debouncedSearch = term.trim();
-				page = 1;
+				resetCursor();
 			},
 			Math.max(0, debounceMs)
 		);
@@ -71,8 +74,8 @@
 	$effect(() => {
 		if (!mounted) return;
 		const query: DataQuery = {
-			page,
-			pageSize,
+			cursor,
+			limit: pageSize,
 			search: debouncedSearch,
 			...(sortBy ? { sortBy, sortDir } : {})
 		};
@@ -85,12 +88,16 @@
 			.then((result) => {
 				if (controller.signal.aborted) return;
 				rows = result.items;
-				total = Math.max(0, result.total);
+				total = typeof result.total === 'number' ? result.total : undefined;
+				nextCursor = result.nextCursor;
+				hasNextPage = result.hasNextPage && !!result.nextCursor;
 			})
 			.catch((err: unknown) => {
 				if (controller.signal.aborted) return;
 				rows = [];
-				total = 0;
+				total = undefined;
+				nextCursor = null;
+				hasNextPage = false;
 				errorMessage = err instanceof Error ? err.message : translate(locale, 'table.error');
 			})
 			.finally(() => {
@@ -104,7 +111,21 @@
 			sortBy = key;
 			sortDir = 'asc';
 		}
-		page = 1;
+		resetCursor();
+	}
+	function resetCursor() {
+		cursorHistory = [null];
+		cursorIndex = 0;
+		nextCursor = null;
+		hasNextPage = false;
+	}
+	function goNext() {
+		if (!hasNextPage || !nextCursor) return;
+		cursorHistory = [...cursorHistory.slice(0, cursorIndex + 1), nextCursor];
+		cursorIndex += 1;
+	}
+	function goBack() {
+		if (cursorIndex > 0) cursorIndex -= 1;
 	}
 </script>
 
@@ -125,7 +146,7 @@
 					value={String(pageSize)}
 					onchange={(event) => {
 						pageSize = Number(event.currentTarget.value);
-						page = 1;
+						resetCursor();
 					}}
 				/>
 			</div>
@@ -193,20 +214,20 @@
 		</table>
 	</div>
 	<div class="flex flex-wrap items-center justify-between gap-3 text-sm">
-		<span aria-live="polite">{translate(locale, 'table.total', { total })}</span>
+		<span aria-live="polite">{total === undefined ? translate(locale, 'table.unknownTotal') : translate(locale, 'table.total', { total })}</span>
 		<div class="flex items-center gap-3">
 			<Button
 				variant="outline"
 				size="sm"
-				disabled={loading || page <= 1}
-				onclick={() => (page -= 1)}>{translate(locale, 'table.previous')}</Button
+				disabled={loading || cursorIndex === 0}
+				onclick={goBack}>{translate(locale, 'table.previous')}</Button
 			>
-			<span>{translate(locale, 'table.page', { page, pages: totalPages })}</span>
+			<span>{translate(locale, 'table.cursorPage', { page: cursorIndex + 1 })}</span>
 			<Button
 				variant="outline"
 				size="sm"
-				disabled={loading || page >= totalPages}
-				onclick={() => (page += 1)}>{translate(locale, 'table.next')}</Button
+				disabled={loading || !hasNextPage}
+				onclick={goNext}>{translate(locale, 'table.next')}</Button
 			>
 		</div>
 	</div>

@@ -35,7 +35,7 @@ These rules apply to AI coding agents and human contributors working from this s
 - Keep strict TypeScript enabled.
 - Explicit `any` is forbidden by ESLint. Prefer `unknown` at untrusted boundaries, runtime narrowing, generics, or typed utility contracts.
 - Use `interface` for stable object-shaped domain, DTO, API and component prop contracts. Use `type` for unions, mapped/conditional types, primitives and function aliases.
-- Use `ApiResponse<T>`, `PaginatedResponse<T>` and `ApiFieldErrors` from `#lib/api/contracts.ts` when the Bun endpoint follows those contracts. Do not assume all API endpoints return a common envelope.
+- Use `ApiResponse<T>`, `CursorPageResponse<T>` and `ApiFieldErrors` from `#lib/api/contracts.ts` when the Bun endpoint follows those contracts. Do not assume all API endpoints return a common envelope.
 - `requestJson<T>()` types caller expectations; it does NOT validate JSON at runtime. Validate untrusted responses at boundaries when correctness/security depends on their shape.
 - If a third-party declaration truly forces `any`, add an explicit, narrowly-scoped `eslint-disable-next-line @typescript-eslint/no-explicit-any -- <reason>` on that line only. Never disable `strict`, `noImplicitAny` or the ESLint rule globally.
 - Keep stable API/domain response types explicit.
@@ -198,3 +198,11 @@ Code review rejection criteria: any new page-local native input, duplicated help
 - Generate new frontend feature modules with `bun run make:module <kebab-name>`; adjust the Bun endpoint and validate its response before production usage.
 - Never overwrite existing generated modules; use interface DTOs, and keep business validation, permission checks and tenant isolation on Bun.
 - Treat `docs/RELEASE-CHECKLIST.md` as the v1.0.0 acceptance gate. CI passing does not override unchecked security and accessibility requirements.
+
+## Cursor pagination (mandatory)
+
+- Backend-driven lists use opaque cursor pagination by default. Use `CursorPageQuery` and `CursorPageResponse<T>`; do not send `OFFSET` or page numbers to Bun for standard list retrieval.
+- DataTable stores prior cursors for Back and uses backend `nextCursor` and `hasNextPage` for Next. Reset cursors when page size, search, sort or filters change.
+- Never decode, concatenate, infer or persist cursor internals in client code. Backend must sign/validate cursor scope and ensure stable ordering with a unique tie-breaker, tenant and permission filters.
+- Total count is optional and may be expensive; do not require it for cursor pagination. Offset contracts are explicitly named legacy opt-ins.
+- SelectAjax should use cursor pagination only for incremental large option lists; basic typeahead may return a bounded set without pagination.
