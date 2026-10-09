@@ -7,13 +7,18 @@
 		EmptyState,
 		Input,
 		Spinner,
-		Textarea
+		Textarea,
+		Tabs,
+		Checkbox
 	} from '#lib/components/ui/index.ts';
 
 	let name = $state('');
 	let notes = $state('');
 	let saving = $state(false);
 	let submitted = $state(false);
+	let activeTab = $state('first');
+	let accepted = $state(false);
+	const sampleTabs = [{ value: 'first', label: 'First' }, { value: 'second', label: 'Second' }];
 </script>
 
 <svelte:head>
@@ -101,6 +106,16 @@
 			</div>
 		</Card>
 
+		<Card>
+			{#snippet header()}<h2 class="text-lg font-semibold">Keyboard tabs and checkbox</h2>{/snippet}
+			<Tabs items={sampleTabs} label="Sample sections" bind:value={activeTab}>
+				{#snippet children(selected)}
+					<p role="status">Active tab: {selected}</p>
+				{/snippet}
+			</Tabs>
+			<div class="mt-4"><Checkbox label="Accept sample" bind:checked={accepted} /></div>
+			<p role="status" class="mt-2">{accepted ? 'Accepted' : 'Not accepted'}</p>
+		</Card>
 		<div class="lg:col-span-2">
 			<EmptyState
 				title="No records found"
