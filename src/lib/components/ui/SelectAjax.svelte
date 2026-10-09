@@ -201,7 +201,9 @@
 			class="absolute top-full z-40 mt-1 max-h-60 w-full overflow-auto rounded-xl border border-slate-200 bg-white p-1 shadow-xl dark:border-slate-700 dark:bg-slate-900"
 		>
 			{#if loading}
-				<p role="status" class="px-3 py-2 text-sm text-slate-500">{translate(locale, 'common.loading')}</p>
+				<p role="status" class="px-3 py-2 text-sm text-slate-500">
+					{translate(locale, 'common.loading')}
+				</p>
 			{:else if results.length === 0}
 				<p class="px-3 py-2 text-sm text-slate-500">{translate(locale, 'common.noResults')}</p>
 			{:else}

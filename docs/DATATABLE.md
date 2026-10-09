@@ -12,23 +12,26 @@ Example:
 
 ```svelte
 <script lang="ts">
-  import { DataTable } from '#lib/components/ui/index.ts';
-  const columns = [
-    { key: 'name', title: 'Name', sortable: true },
-    { key: 'email', title: 'Email' }
-  ];
-  async function fetchPage(query, signal) {
-    const url = '/api/users?' + new URLSearchParams({
-      page: String(query.page),
-      limit: String(query.pageSize),
-      search: query.search,
-      sort: query.sortBy ?? '',
-      order: query.sortDir ?? 'asc'
-    });
-    const response = await fetch(url, { signal, credentials: 'include' });
-    if (!response.ok) throw new Error('Failed to load users');
-    return response.json(); // { items, total }
-  }
+	import { DataTable } from '#lib/components/ui/index.ts';
+	const columns = [
+		{ key: 'name', title: 'Name', sortable: true },
+		{ key: 'email', title: 'Email' }
+	];
+	async function fetchPage(query, signal) {
+		const url =
+			'/api/users?' +
+			new URLSearchParams({
+				page: String(query.page),
+				limit: String(query.pageSize),
+				search: query.search,
+				sort: query.sortBy ?? '',
+				order: query.sortDir ?? 'asc'
+			});
+		const response = await fetch(url, { signal, credentials: 'include' });
+		if (!response.ok) throw new Error('Failed to load users');
+		return response.json(); // { items, total }
+	}
 </script>
+
 <DataTable {columns} {fetchPage} rowKey={(row) => String(row.id)} />
 ```

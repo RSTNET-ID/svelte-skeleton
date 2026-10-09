@@ -48,7 +48,12 @@
 	<section
 		class="grid gap-5 rounded-2xl border border-slate-200 bg-white p-6 md:grid-cols-2 dark:border-slate-800 dark:bg-slate-900"
 	>
-		<AutoNumericInput label={translate(page.data.locale ?? 'id', 'fields.amount')} kind="currency" name="amount" bind:value={nominal} />
+		<AutoNumericInput
+			label={translate(page.data.locale ?? 'id', 'fields.amount')}
+			kind="currency"
+			name="amount"
+			bind:value={nominal}
+		/>
 		<AutoNumericInput
 			label={translate(page.data.locale ?? 'id', 'fields.percent')}
 			kind="percent"
@@ -57,10 +62,29 @@
 			maximumValue="100"
 			bind:value={percent}
 		/>
-		<DatePicker label={translate(page.data.locale ?? 'id', 'fields.date')} bind:value={tanggal} name="date" />
-		<DatePicker label={translate(page.data.locale ?? 'id', 'fields.range')} mode="range" bind:value={rentang} name="range" />
-		<DatePicker label={translate(page.data.locale ?? 'id', 'fields.time')} timeOnly bind:value={jam} name="time" />
-		<Select label={translate(page.data.locale ?? 'id', 'fields.status')} name="status" options={statuses} bind:value={status} />
+		<DatePicker
+			label={translate(page.data.locale ?? 'id', 'fields.date')}
+			bind:value={tanggal}
+			name="date"
+		/>
+		<DatePicker
+			label={translate(page.data.locale ?? 'id', 'fields.range')}
+			mode="range"
+			bind:value={rentang}
+			name="range"
+		/>
+		<DatePicker
+			label={translate(page.data.locale ?? 'id', 'fields.time')}
+			timeOnly
+			bind:value={jam}
+			name="time"
+		/>
+		<Select
+			label={translate(page.data.locale ?? 'id', 'fields.status')}
+			name="status"
+			options={statuses}
+			bind:value={status}
+		/>
 		<SelectAjax
 			label={translate(page.data.locale ?? 'id', 'fields.user')}
 			name="user_id"
