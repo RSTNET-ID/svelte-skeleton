@@ -14,7 +14,7 @@
   const id = $props.id();
 </script>
 
-<fieldset disabled={disabled} aria-invalid={error ? 'true' : undefined} aria-describedby={error ? `${id}-error` : hint ? `${id}-hint` : undefined} class="space-y-2">
+<fieldset disabled={disabled} aria-describedby={error ? `${id}-error` : hint ? `${id}-hint` : undefined} class="space-y-2">
   <legend class="text-sm font-medium text-slate-800 dark:text-slate-200">{label}</legend>
   <div class="flex flex-wrap gap-4">
     {#each options as option (option.value)}
