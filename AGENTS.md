@@ -179,3 +179,9 @@ Code review rejection criteria: any new page-local native input, duplicated help
 - Validate file size and MIME/type on Bun and MinIO policy as well as in the browser. Use an allowlist for presigned upload origins in real deployments. Do not claim byte-level progress unless implemented with a measurable upload transport.
 - Use typed translation keys for all user-visible copy in both ID and EN. Tests and documentation are mandatory for new shared helpers.
 - Until the user re-enables CI use, do not create or inspect GitHub Actions workflows; validate locally when possible and report any unresolved checks.
+
+## Security acceptance criteria
+
+- FileUpload MUST receive an explicit exact-origin allowlist. Never use arbitrary presigned URLs, wildcard domains, or forward cookies to object storage.
+- Every restricted CMS route MUST have server-side permission verification; sidebar filtering is not authorization.
+- Any shared security guard requires positive and negative regression tests. Do not treat this baseline as production certification.

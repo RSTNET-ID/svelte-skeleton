@@ -1,7 +1,8 @@
 <script lang="ts">
   import { page } from '$app/state';
   import { translate } from '#lib/i18n/index.ts';
-  import { Button } from './index.ts';
+  import Button from './Button.svelte';
+  import { validateUploadOrigin } from '#lib/helpers/upload.ts';
   type UploadTicket = { uploadUrl: string; method?: 'PUT'; headers?: Record<string,string>; objectKey: string };
   interface Props {
     label: string;
@@ -32,9 +33,7 @@
     const controller = new AbortController(); aborter = controller;
     try {
       const ticket = await requestTicket(file, controller.signal);
-      const url = new URL(ticket.uploadUrl);
-      if (!allowedUploadOrigins.includes(url.origin) || (url.protocol !== 'https:' && url.hostname !== 'localhost' && url.hostname !== '127.0.0.1')) throw new Error('Untrusted upload origin');
-      if (url.username || url.password || url.hash) throw new Error('Invalid upload URL');
+      if (!validateUploadOrigin(ticket.uploadUrl, allowedUploadOrigins)) throw new Error('Untrusted upload origin');
       if (!ticket.objectKey) throw new Error('Missing object key');
       const response = await fetch(ticket.uploadUrl, { method: 'PUT', body: file, headers: ticket.headers, signal: controller.signal, credentials: 'omit' });
       if (!response.ok) throw new Error(`Upload failed: ${response.status}`);

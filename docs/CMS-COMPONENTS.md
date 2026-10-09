@@ -10,3 +10,7 @@
 FileUpload currently provides busy/completed states, **not real byte progress**. Use an upload transport with byte-level progress events before showing percentage indicators in a derived product.
 
 CMS example menu entry `/cms/components` requires `cms.components.read`. Every actual product endpoint must separately enforce permission and tenant rules. Existing example CMS authorization is a baseline, not a complete production RBAC solution.
+
+## Upload origin enforcement
+
+`FileUpload` requires an `allowedUploadOrigins` array, for example `['https://uploads.example.com']`. Only exact origin matches are allowed. For local MinIO development, explicitly include `http://localhost:9000`. The component no longer accepts arbitrary presigned URL origins. Cancellation invalidates pending completion callbacks. Production origin authorization and actual file validation remain the backend's responsibility.
