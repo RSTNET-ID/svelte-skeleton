@@ -180,3 +180,13 @@ The container runs as the non-root `bun` user and exposes a `/health` liveness e
 ## License
 
 MIT. See [`LICENSE`](LICENSE).
+
+## Dynamic base components and layouts
+
+- `AutoNumericInput`: reusable raw decimal values for currency, percent and generic numbers.
+- `DatePicker`: reusable single/range/multiple selection and time-only/date-time modes.
+- `SelectAjax`: debounced async suggestion search, cancellation, and edit-form ID resolution.
+- `src/routes/(public)` and `src/routes/(cms)/cms`: separate public/CMS shells; CMS has server-side Bun auth gate.
+- `src/lib/helpers`: common pure UI/data utilities.
+
+See [dynamic form documentation](docs/DYNAMIC-FORMS-AND-LAYOUTS.md). All pages MUST use base components, not native input elements. See [AGENTS.md](AGENTS.md).

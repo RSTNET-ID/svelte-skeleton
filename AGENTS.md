@@ -110,3 +110,21 @@ Run Playwright when behavior visible in the browser changed.
 ## Agent entrypoints
 
 `AGENTS.md` is canonical for every agent. `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`, and `.cursor/rules/svelte-skeleton.mdc` point back here and only describe tooling-specific workflows. Resolve conflicts by following this file; security rules take precedence.
+
+## Mandatory base components: STRICT RULE
+
+**MUST:** Every route/page/feature uses the shared primitives exported by `#lib/components/ui/index.ts` for user input and interactive form controls. Applies equally to public pages, CMS pages, create/edit forms, search, filters, modals and settings.
+
+**FORBIDDEN outside `src/lib/components/ui/`:** direct `<input>`, `<textarea>`, `<select>` or hand-rolled replacements for existing base components. Native HTML controls may be implemented inside the base component layer only. Do not use raw input elements in a page, even when they appear simpler.
+
+**MUST:** Use `Input`, `Textarea`, `Button`, `AutoNumericInput`, `DatePicker`, `SelectAjax` or additional shared base components. If a requested feature needs a control that does not exist, implement or extend a reusable base component FIRST, then use it in the page. Do not bypass the rule due to deadlines or create page-local input wrappers. No third-party widget directly in route code: wrap it in a base component with a stable public API.
+
+**MUST:** Keep all shared components configurable through props, Svelte 5 snippets, typed callbacks and bindable values. No page-specific URLs, fixed option catalogs, fixed permission checks or domain schemas inside generic UI controls.
+
+**MUST:** Shared helpers go into `src/lib/helpers/`, exported through `index.ts`, with tests for nontrivial behavior. Check existing helpers before creating local formatters, normalizers, URL builders, string/date/number utilities. Helpers must be pure when possible, locale/timezone explicit, and never handle secrets or authorization decisions.
+
+**MUST:** Public routes belong to `src/routes/(public)/`; CMS routes to `src/routes/(cms)/cms/`. CMS must enforce server-side identity and authorization. An authentication gate is not a replacement for endpoint-level permissions.
+
+**FORBIDDEN:** Per-keypress AJAX network calls. `SelectAjax` uses debounce after typing stops, AbortController, stale result protection and `resolve(id)` for edit preselection.
+
+Code review rejection criteria: any new page-local native input, duplicated helper, bypass of server auth boundary, or untested shared helper. Do not claim completion until full CI is green.

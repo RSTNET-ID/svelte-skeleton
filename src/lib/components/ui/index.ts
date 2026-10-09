@@ -6,3 +6,6 @@ export { default as Card } from './Card.svelte';
 export { default as Alert } from './Alert.svelte';
 export { default as Spinner } from './Spinner.svelte';
 export { default as EmptyState } from './EmptyState.svelte';
+export { default as AutoNumericInput } from './AutoNumericInput.svelte';
+export { default as DatePicker } from './DatePicker.svelte';
+export { default as SelectAjax } from './SelectAjax.svelte';
