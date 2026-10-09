@@ -156,3 +156,8 @@ Code review rejection criteria: any new page-local native input, duplicated help
 - Backend owns pagination, sorting, filtering and authorization; use explicit allowlists for sortable fields, stable sort, bounded page sizes and tenant filters.
 - Pass `AbortSignal` to fetch. Never send a request on each keypress; debounce is mandatory.
 - All visible table text and application column titles must have ID and EN translations. Do not render unsanitized HTML from API payloads.
+
+## Notification and confirmation
+- Use shared `ToastViewport` for transient feedback and `ConfirmDialog` for destructive confirmations; no browser `alert()` or `confirm()` in pages.
+- Keep all labels translated in ID and EN, and never include secrets in toast messages.
+- Confirming a destructive action must still be authorized by Bun backend; dialog confirmation is only UX.

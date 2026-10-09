@@ -11,3 +11,5 @@ export { default as DatePicker } from './DatePicker.svelte';
 export { default as SelectAjax } from './SelectAjax.svelte';
 export { default as Select } from './Select.svelte';
 export { default as DataTable } from './DataTable.svelte';
+export { default as ToastViewport } from './ToastViewport.svelte';
+export { default as ConfirmDialog } from './ConfirmDialog.svelte';
