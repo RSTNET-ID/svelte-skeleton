@@ -59,3 +59,17 @@ See [`/components`](../src/routes/components/+page.svelte) for a live gallery.
 ## Extending
 
 Implement new primitives only when reused by multiple pages. Complex interactions such as comboboxes, date pickers, menus, dialogs, virtualized tables and multi-selects should use tested accessible building blocks when needed, not rushed custom ARIA widgets.
+
+## Icons
+
+Use lightweight Lucide SVG icons through **per-icon subpath imports**:
+
+```svelte
+<script lang="ts">
+	import Search from '@lucide/svelte/icons/search';
+	import { Button } from '#lib/components/ui/index.ts';
+</script>
+<Button aria-label="Cari"><Search size={18} aria-hidden="true" /></Button>
+```
+
+Do not import the entire icon library, use remote icon fonts, or preload the icon catalog. This keeps SSR and route bundles lean. SVG icons can be tree-shaken individually. Size/stroke/color are component props; prefer `currentColor` for theming.

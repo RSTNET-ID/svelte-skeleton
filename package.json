@@ -53,6 +53,7 @@
 	},
 	"dependencies": {
 		"autonumeric": "4.10.10",
-		"flatpickr": "4.6.13"
+		"flatpickr": "4.6.13",
+		"@lucide/svelte": "1.53.0"
 	}
 }

@@ -129,3 +129,12 @@ Run Playwright when behavior visible in the browser changed.
 Code review rejection criteria: any new page-local native input, duplicated helper, bypass of server auth boundary, or untested shared helper. Do not claim completion until full CI is green.
 
 - **Select (regular)** MUST be used for local/static/preloaded options. **SelectAjax** MUST be used for backend-filtered datasets. Never implement a native `<select>` inside a page.
+
+## Icon policy (mandatory)
+
+- Use `@lucide/svelte` (Svelte 5-native). Import **each icon from its explicit subpath**, e.g. `import Search from '@lucide/svelte/icons/search';`.
+- Do **not** import from the package root (`import { Search } from '@lucide/svelte'`), dynamically import an entire icon set, import `icons` dictionaries, or build a registry that eagerly imports every icon.
+- Do **not** add icon fonts, remote icon CDNs, a second icon dependency, or global SVG sprite preload.
+- Decorative icons require `aria-hidden="true"`; icon-only buttons require an accessible label. Reuse `Button` for icon actions.
+- Icons are presentation components, not a reason to bypass mandatory UI base components.
+- Avoid adding a generic `Icon name={string}` wrapper backed by a complete registry. Direct imports permit smaller per-route bundles.

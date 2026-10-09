@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import Sun from '@lucide/svelte/icons/sun';
+	import Moon from '@lucide/svelte/icons/moon';
 
 	let dark = $state(false);
 
@@ -25,29 +27,8 @@
 	title={dark ? 'Use light theme' : 'Use dark theme'}
 >
 	{#if dark}
-		<svg
-			viewBox="0 0 24 24"
-			aria-hidden="true"
-			class="size-5"
-			fill="none"
-			stroke="currentColor"
-			stroke-width="1.8"
-		>
-			<circle cx="12" cy="12" r="4"></circle>
-			<path
-				d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"
-			></path>
-		</svg>
+		<Sun size={20} aria-hidden="true" />
 	{:else}
-		<svg
-			viewBox="0 0 24 24"
-			aria-hidden="true"
-			class="size-5"
-			fill="none"
-			stroke="currentColor"
-			stroke-width="1.8"
-		>
-			<path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"></path>
-		</svg>
+		<Moon size={20} aria-hidden="true" />
 	{/if}
 </button>

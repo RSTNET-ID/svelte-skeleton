@@ -3,12 +3,15 @@
 	import { Button } from '#lib/components/ui/index.ts';
 	import { page } from '$app/state';
 	import type { Snippet } from 'svelte';
+	import LayoutDashboard from '@lucide/svelte/icons/layout-dashboard';
+	import PanelsTopLeft from '@lucide/svelte/icons/panels-top-left';
+	import Menu from '@lucide/svelte/icons/menu';
 
 	let { children }: { children: Snippet } = $props();
 	let mobileOpen = $state(false);
 	const menu = [
-		{ href: '/cms', title: 'Dashboard' },
-		{ href: '/cms/components', title: 'Form Components' }
+		{ href: '/cms', title: 'Dashboard', icon: LayoutDashboard },
+		{ href: '/cms/components', title: 'Form Components', icon: PanelsTopLeft }
 	];
 </script>
 
@@ -36,7 +39,8 @@
 					onclick={() => (mobileOpen = false)}
 					aria-current={page.url.pathname === item.href ? 'page' : undefined}
 					class={`block rounded-xl px-3 py-2 text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 ${page.url.pathname === item.href ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300' : ''}`}
-					>{item.title}</a
+					>
+						<item.icon size={17} aria-hidden="true" class="mr-2 inline-block align-text-bottom" />{item.title}</a
 				>
 			{/each}
 		</nav>
@@ -53,7 +57,7 @@
 					class="lg:hidden"
 					aria-label="Buka navigasi"
 					aria-expanded={mobileOpen}
-					onclick={() => (mobileOpen = true)}>☰</Button
+					onclick={() => (mobileOpen = true)}><Menu size={18} aria-hidden="true" /></Button
 				>
 				<span class="text-sm font-semibold">Management Console</span>
 			</div>
