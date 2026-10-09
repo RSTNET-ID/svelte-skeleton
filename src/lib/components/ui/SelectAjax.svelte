@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { page } from '$app/state';
+	import { translate } from '#lib/i18n/index.ts';
 
 	export type SelectOption = { value: string; label: string; disabled?: boolean };
 	export type SearchOptions = (query: string, signal: AbortSignal) => Promise<SelectOption[]>;
@@ -31,7 +33,7 @@
 		resolve,
 		debounceMs = 350,
 		minChars = 2,
-		placeholder = 'Cari...',
+		placeholder,
 		disabled = false,
 		required = false,
 		error
@@ -39,6 +41,7 @@
 
 	const generatedId = $props.id();
 	const fieldId = $derived(id ?? generatedId);
+	const locale = $derived(page.data.locale ?? 'id');
 	let text = $state('');
 	let results = $state<SelectOption[]>([]);
 	let open = $state(false);
@@ -185,7 +188,7 @@
 		value={text}
 		oninput={onInput}
 		onkeydown={keydown}
-		{placeholder}
+		placeholder={placeholder ?? translate(locale, 'common.search')}
 		{disabled}
 		{required}
 		class="min-h-10 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm text-slate-900 focus-visible:outline-2 focus-visible:outline-indigo-500 disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
@@ -198,9 +201,9 @@
 			class="absolute top-full z-40 mt-1 max-h-60 w-full overflow-auto rounded-xl border border-slate-200 bg-white p-1 shadow-xl dark:border-slate-700 dark:bg-slate-900"
 		>
 			{#if loading}
-				<p role="status" class="px-3 py-2 text-sm text-slate-500">Mencari...</p>
+				<p role="status" class="px-3 py-2 text-sm text-slate-500">{translate(locale, 'common.loading')}</p>
 			{:else if results.length === 0}
-				<p class="px-3 py-2 text-sm text-slate-500">Tidak ada hasil</p>
+				<p class="px-3 py-2 text-sm text-slate-500">{translate(locale, 'common.noResults')}</p>
 			{:else}
 				{#each results as option, index (option.value)}
 					<button

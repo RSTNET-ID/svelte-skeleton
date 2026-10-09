@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { AutoNumericInput, DatePicker, Select, SelectAjax } from '#lib/components/ui/index.ts';
 	import type { SelectOption } from '#lib/components/ui/SelectAjax.svelte';
+	import { page } from '$app/state';
+	import { translate } from '#lib/i18n/index.ts';
 
 	let nominal = $state<string | null>('2500000');
 	let percent = $state<string | null>('12.5');
@@ -46,21 +48,21 @@
 	<section
 		class="grid gap-5 rounded-2xl border border-slate-200 bg-white p-6 md:grid-cols-2 dark:border-slate-800 dark:bg-slate-900"
 	>
-		<AutoNumericInput label="Nominal (IDR)" kind="currency" name="amount" bind:value={nominal} />
+		<AutoNumericInput label={translate(page.data.locale ?? 'id', 'fields.amount')} kind="currency" name="amount" bind:value={nominal} />
 		<AutoNumericInput
-			label="Persentase"
+			label={translate(page.data.locale ?? 'id', 'fields.percent')}
 			kind="percent"
 			name="rate"
 			minimumValue="0"
 			maximumValue="100"
 			bind:value={percent}
 		/>
-		<DatePicker label="Tanggal" bind:value={tanggal} name="date" />
-		<DatePicker label="Rentang tanggal" mode="range" bind:value={rentang} name="range" />
-		<DatePicker label="Jam" timeOnly bind:value={jam} name="time" />
-		<Select label="Status (local)" name="status" options={statuses} bind:value={status} />
+		<DatePicker label={translate(page.data.locale ?? 'id', 'fields.date')} bind:value={tanggal} name="date" />
+		<DatePicker label={translate(page.data.locale ?? 'id', 'fields.range')} mode="range" bind:value={rentang} name="range" />
+		<DatePicker label={translate(page.data.locale ?? 'id', 'fields.time')} timeOnly bind:value={jam} name="time" />
+		<Select label={translate(page.data.locale ?? 'id', 'fields.status')} name="status" options={statuses} bind:value={status} />
 		<SelectAjax
-			label="Pilih user"
+			label={translate(page.data.locale ?? 'id', 'fields.user')}
 			name="user_id"
 			bind:value={userId}
 			bind:selectedOption={userOption}
