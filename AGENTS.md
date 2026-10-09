@@ -161,3 +161,12 @@ Code review rejection criteria: any new page-local native input, duplicated help
 - Use shared `ToastViewport` for transient feedback and `ConfirmDialog` for destructive confirmations; no browser `alert()` or `confirm()` in pages.
 - Keep all labels translated in ID and EN, and never include secrets in toast messages.
 - Confirming a destructive action must still be authorized by Bun backend; dialog confirmation is only UX.
+
+## Mandatory common form controls and API error mapping
+
+- Use `Checkbox`, `RadioGroup`, and `Switch` from `#lib/components/ui/index.ts`. NEVER place native checkbox, radio, toggle or other input markup in a route or feature component.
+- Any new control must first be implemented as a reusable, accessible Svelte 5 base component, with bindable values, disabled and validation states.
+- Use `mapFieldErrors` and `firstFieldError` from `#lib/helpers/index.ts` to map structured Bun backend validation payloads to field error props. Do not duplicate backend error parsing in pages.
+- Preserve backend validation authority. Frontend checks only improve UX and never substitute backend authorization, input validation or tenant isolation.
+- All new visible copy must be available in ID and EN. Never translate values persisted as domain/API enums.
+- Do not run GitHub Actions jobs or create temporary format workflows when CI budget is unavailable. Report unrun validation accurately.

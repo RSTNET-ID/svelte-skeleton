@@ -13,3 +13,6 @@ export { default as Select } from './Select.svelte';
 export { default as DataTable } from './DataTable.svelte';
 export { default as ToastViewport } from './ToastViewport.svelte';
 export { default as ConfirmDialog } from './ConfirmDialog.svelte';
+export { default as Checkbox } from './Checkbox.svelte';
+export { default as Switch } from './Switch.svelte';
+export { default as RadioGroup } from './RadioGroup.svelte';

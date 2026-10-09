@@ -74,3 +74,12 @@ Use lightweight Lucide SVG icons through **per-icon subpath imports**:
 ```
 
 Do not import the entire icon library, use remote icon fonts, or preload the icon catalog. This keeps SSR and route bundles lean. SVG icons can be tree-shaken individually. Size/stroke/color are component props; prefer `currentColor` for theming.
+
+## Additional form primitives
+
+- `Checkbox`: native accessible checkbox wrapped in a typed Svelte 5 component with `bind:checked`, label, hint and error.
+- `Switch`: semantic native checkbox with `role="switch"`, `bind:checked` and disabled/validation states.
+- `RadioGroup`: fieldset/legend group with a shared `name`, bindable selected string and configurable choices.
+- `mapFieldErrors(payload)`: maps `{ fields: { email: ['Invalid'] } }` or `{ errors: ... }` from Bun to typed field-error arrays; `firstFieldError(errors, 'email')` selects the first message for display.
+
+All form primitives are usable from public and CMS pages and do not depend on domain-specific field names or backend endpoints. Keep labels translated at the calling page via `translate(locale, key)`.
