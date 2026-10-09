@@ -4,14 +4,14 @@
   import { translate } from '#lib/i18n/index.ts';
   import { Button, Input, Select } from '#lib/components/ui/index.ts';
 
-  export type DataColumn<T> = {
+  type DataColumn<T> = {
     key: string;
     title: string;
     sortable?: boolean;
     value?: (row: T) => string | number | null | undefined;
   };
-  export type DataPage<T> = { items: T[]; total: number };
-  export type DataQuery = { page: number; pageSize: number; search: string; sortBy?: string; sortDir?: 'asc' | 'desc' };
+  type DataPage<T> = { items: T[]; total: number };
+  type DataQuery = { page: number; pageSize: number; search: string; sortBy?: string; sortDir?: 'asc' | 'desc' };
   interface Props {
     columns: DataColumn<T>[];
     fetchPage: (query: DataQuery, signal: AbortSignal) => Promise<DataPage<T>>;
@@ -23,7 +23,7 @@
   let { columns, fetchPage, rowKey, pageSizes = [10, 25, 50], debounceMs = 350, initialPageSize = 10 }: Props = $props();
   const locale = $derived(currentPage.data.locale ?? 'id');
   let page = $state(1);
-  let pageSize = $state(initialPageSize);
+  let pageSize = $state(10);
   let search = $state('');
   let debouncedSearch = $state('');
   let sortBy = $state<string | undefined>(undefined);
@@ -37,7 +37,7 @@
   const totalPages = $derived(Math.max(1, Math.ceil(total / pageSize)));
   const sizeOptions = $derived(pageSizes.map((n) => ({ value: String(n), label: String(n) })));
 
-  onMount(() => { mounted = true; return () => { mounted = false; }; });
+  onMount(() => { pageSize = initialPageSize; mounted = true; return () => { mounted = false; }; });
   $effect(() => {
     const term = search;
     const timer = setTimeout(() => { debouncedSearch = term.trim(); page = 1; }, Math.max(0, debounceMs));
@@ -99,9 +99,9 @@
       </thead>
       <tbody>
         {#if loading}
-          <tr><td colspan={columns.length} class="px-4 py-12 text-center" role="status">{translate(locale, 'common.loading')}</td></tr>
+          <tr><td colspan={columns.length} class="px-4 py-12 text-center"><span role="status">{translate(locale, 'common.loading')}</span></td></tr>
         {:else if errorMessage}
-          <tr><td colspan={columns.length} class="px-4 py-12 text-center" role="alert">{errorMessage}<div class="mt-3"><Button variant="outline" onclick={() => (refresh += 1)}>{translate(locale, 'table.retry')}</Button></div></td></tr>
+          <tr><td colspan={columns.length} class="px-4 py-12 text-center"><div role="alert">{errorMessage}</div><div class="mt-3"><Button variant="outline" onclick={() => (refresh += 1)}>{translate(locale, 'table.retry')}</Button></div></td></tr>
         {:else if rows.length === 0}
           <tr><td colspan={columns.length} class="px-4 py-12 text-center">{translate(locale, 'common.noResults')}</td></tr>
         {:else}
