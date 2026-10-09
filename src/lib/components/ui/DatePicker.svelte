@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import type { Instance, Options } from 'flatpickr/dist/types/instance';
+  import type { Instance } from 'flatpickr/dist/types/instance';
   import type { BaseOptions } from 'flatpickr/dist/types/options';
 
   type Mode = 'single' | 'range' | 'multiple';
