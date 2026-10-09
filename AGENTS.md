@@ -138,3 +138,14 @@ Code review rejection criteria: any new page-local native input, duplicated help
 - Decorative icons require `aria-hidden="true"`; icon-only buttons require an accessible label. Reuse `Button` for icon actions.
 - Icons are presentation components, not a reason to bypass mandatory UI base components.
 - Avoid adding a generic `Icon name={string}` wrapper backed by a complete registry. Direct imports permit smaller per-route bundles.
+
+## Internationalization (mandatory, ID and EN)
+
+- ALL user-facing UI text MUST use translation keys from `src/lib/i18n/index.ts`. This includes labels, buttons, headings, navigation, validation messages, placeholders, empty states, toasts, dialogs, error states and accessibility labels.
+- Default language is Indonesian (`id`); English (`en`) is required for every new translation key. Missing counterparts block review. Avoid hard-coded visible strings in pages, layouts and base components.
+- Use `translate(locale, key, params)`; keys must be typed. Never build translation keys dynamically from arbitrary API input.
+- Locale MUST be decided on the server from the `app_locale` HttpOnly cookie, with a safe `id` fallback. Do not decide initial language using `localStorage`, which causes SSR hydration mismatches.
+- Reuse `LanguageSwitcher` for both public and CMS. The same-origin POST endpoint changes the cookie and redirects back to a safe local URL.
+- Use locale-aware `Intl` formatters and explicitly supplied time zone for dates and currency. Backend field values and API enum codes must never be translated as storage values.
+- Keep translations in a small local dictionary; do not add a heavy internationalization runtime by default.
+- Add tests for translation keys, interpolation and locale validation when modifying the i18n layer.

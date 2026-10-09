@@ -1,4 +1,7 @@
 <script lang="ts">
+	import LanguageSwitcher from '#lib/components/LanguageSwitcher.svelte';
+	import { page } from '$app/state';
+	import { translate } from '#lib/i18n/index.ts';
 	import ThemeToggle from '#lib/components/ThemeToggle.svelte';
 	import { appConfig } from '#lib/config/app.ts';
 
@@ -34,6 +37,7 @@
 					target="_blank"
 					rel="noreferrer">GitHub</a
 				>
+				<LanguageSwitcher />
 				<ThemeToggle />
 			</div>
 		</div>
@@ -45,8 +49,8 @@
 		<div
 			class="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-8 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:px-8 dark:text-slate-400"
 		>
-			<p>SvelteKit frontend skeleton for Bun-backed projects.</p>
-			<p>Keep the starter boring. Make the product interesting.</p>
+			<p>{translate(page.data.locale ?? 'id', 'footer.description')}</p>
+			<p>{translate(page.data.locale ?? 'id', 'footer.tagline')}</p>
 		</div>
 	</footer>
 </div>

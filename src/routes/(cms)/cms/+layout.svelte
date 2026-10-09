@@ -1,4 +1,6 @@
 <script lang="ts">
+	import LanguageSwitcher from '#lib/components/LanguageSwitcher.svelte';
+	import { translate } from '#lib/i18n/index.ts';
 	import ThemeToggle from '#lib/components/ThemeToggle.svelte';
 	import { Button } from '#lib/components/ui/index.ts';
 	import { page } from '$app/state';
@@ -10,8 +12,8 @@
 	let { children }: { children: Snippet } = $props();
 	let mobileOpen = $state(false);
 	const menu = [
-		{ href: '/cms', title: 'Dashboard', icon: LayoutDashboard },
-		{ href: '/cms/components', title: 'Form Components', icon: PanelsTopLeft }
+		{ href: '/cms', title: 'nav.dashboard', icon: LayoutDashboard },
+		{ href: '/cms/components', title: 'nav.components', icon: PanelsTopLeft }
 	];
 </script>
 
@@ -44,7 +46,7 @@
 						size={17}
 						aria-hidden="true"
 						class="mr-2 inline-block align-text-bottom"
-					/>{item.title}</a
+					/>{translate(page.data.locale ?? 'id', item.title as 'nav.dashboard' | 'nav.components')}</a
 				>
 			{/each}
 		</nav>
@@ -63,10 +65,10 @@
 					aria-expanded={mobileOpen}
 					onclick={() => (mobileOpen = true)}><Menu size={18} aria-hidden="true" /></Button
 				>
-				<span class="text-sm font-semibold">Management Console</span>
+				<span class="text-sm font-semibold">{translate(page.data.locale ?? 'id', 'cms.title')}</span>
 			</div>
 			<div class="flex items-center gap-3">
-				<a href="/" class="text-sm text-indigo-600 dark:text-indigo-300">Website</a><ThemeToggle />
+				<a href="/" class="text-sm text-indigo-600 dark:text-indigo-300">{translate(page.data.locale ?? 'id', 'nav.website')}</a><LanguageSwitcher /><ThemeToggle />
 			</div>
 		</header>
 		<main class="mx-auto max-w-7xl px-5 py-8 sm:px-8">{@render children()}</main>
