@@ -170,3 +170,12 @@ Code review rejection criteria: any new page-local native input, duplicated help
 - Preserve backend validation authority. Frontend checks only improve UX and never substitute backend authorization, input validation or tenant isolation.
 - All new visible copy must be available in ID and EN. Never translate values persisted as domain/API enums.
 - Do not run GitHub Actions jobs or create temporary format workflows when CI budget is unavailable. Report unrun validation accurately.
+
+## CMS navigation, upload, and tabs
+
+- Use shared `Tabs` for tabbed interfaces, `Breadcrumb` for hierarchical navigation, and `FileUpload` for uploads. Do not build page-local equivalents.
+- UI permission checks only determine menu/button visibility. The Bun backend MUST enforce permissions and tenant isolation on every endpoint. Do not trust decoded JWT claims for authorization.
+- FileUpload obtains a short-lived presigned URL from the Bun backend and uploads directly to MinIO; never embed MinIO keys or long-lived storage secrets in frontend code.
+- Validate file size and MIME/type on Bun and MinIO policy as well as in the browser. Use an allowlist for presigned upload origins in real deployments. Do not claim byte-level progress unless implemented with a measurable upload transport.
+- Use typed translation keys for all user-visible copy in both ID and EN. Tests and documentation are mandatory for new shared helpers.
+- Until the user re-enables CI use, do not create or inspect GitHub Actions workflows; validate locally when possible and report any unresolved checks.

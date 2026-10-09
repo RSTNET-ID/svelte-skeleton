@@ -16,3 +16,6 @@ export { default as ConfirmDialog } from './ConfirmDialog.svelte';
 export { default as Checkbox } from './Checkbox.svelte';
 export { default as Switch } from './Switch.svelte';
 export { default as RadioGroup } from './RadioGroup.svelte';
+export { default as Tabs } from './Tabs.svelte';
+export { default as Breadcrumb } from './Breadcrumb.svelte';
+export { default as FileUpload } from './FileUpload.svelte';

@@ -2,7 +2,8 @@
 	import LanguageSwitcher from '#lib/components/LanguageSwitcher.svelte';
 	import { translate } from '#lib/i18n/index.ts';
 	import ThemeToggle from '#lib/components/ThemeToggle.svelte';
-	import { Button } from '#lib/components/ui/index.ts';
+	import { Button, Breadcrumb } from '#lib/components/ui/index.ts';
+	import { canAccess } from '#lib/helpers/permissions.ts';
 	import { page } from '$app/state';
 	import type { Snippet } from 'svelte';
 	import LayoutDashboard from '@lucide/svelte/icons/layout-dashboard';
@@ -11,9 +12,11 @@
 
 	let { children }: { children: Snippet } = $props();
 	let mobileOpen = $state(false);
+	const permissions = $derived(page.data.user?.permissions ?? []);
+	const visibleMenu = $derived(menu.filter((item) => canAccess(permissions, item.permission)));
 	const menu = [
-		{ href: '/cms', title: 'nav.dashboard', icon: LayoutDashboard },
-		{ href: '/cms/components', title: 'nav.components', icon: PanelsTopLeft }
+		{ href: '/cms', title: 'nav.dashboard', icon: LayoutDashboard, permission: undefined },
+		{ href: '/cms/components', title: 'nav.components', icon: PanelsTopLeft, permission: 'cms.components.read' }
 	];
 </script>
 
@@ -35,7 +38,7 @@
 			><span class="rounded-lg bg-indigo-600 px-2 py-1 text-white">S</span> Skeleton CMS</a
 		>
 		<nav aria-label="Navigasi CMS" class="mt-10 space-y-1">
-			{#each menu as item (item.href)}
+			{#each visibleMenu as item (item.href)}
 				<a
 					href={item.href}
 					onclick={() => (mobileOpen = false)}
@@ -77,6 +80,9 @@
 				><LanguageSwitcher /><ThemeToggle />
 			</div>
 		</header>
-		<main class="mx-auto max-w-7xl px-5 py-8 sm:px-8">{@render children()}</main>
+		<main class="mx-auto max-w-7xl space-y-5 px-5 py-8 sm:px-8">
+			<Breadcrumb items={[{ label: translate(page.data.locale ?? 'id', 'nav.dashboard'), href: '/cms' }, ...(page.url.pathname === '/cms' ? [] : [{ label: translate(page.data.locale ?? 'id', 'nav.components') }])]} />
+			{@render children()}
+		</main>
 	</div>
 </div>
