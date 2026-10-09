@@ -8,6 +8,10 @@ export type BackendApiOptions = Omit<ApiRequestOptions, 'baseUrl' | 'requestId' 
 
 export function backendApi<T>(event: RequestEvent, options: BackendApiOptions): Promise<T> {
 	const { forwardAuth = true, ...requestOptions } = options;
+	// Never forward credentials across upstream HTTP redirects.
+	if (requestOptions.redirect && requestOptions.redirect !== 'manual') {
+		throw new TypeError('Backend API must not follow redirects');
+	}
 	// Auth-bearing server requests must never follow caller-supplied absolute URLs.
 	if (
 		!requestOptions.path.startsWith('/') ||
@@ -29,6 +33,7 @@ export function backendApi<T>(event: RequestEvent, options: BackendApiOptions): 
 		...requestOptions,
 		headers,
 		baseUrl: API_BASE_URL,
+		redirect: 'manual',
 		requestId: event.locals.requestId,
 		timeoutMs: API_TIMEOUT_MS
 	});
