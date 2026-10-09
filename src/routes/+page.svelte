@@ -80,7 +80,7 @@
 				<span class="ml-3 text-xs font-medium text-slate-400">starter workflow</span>
 			</div>
 			<div class="space-y-1 p-5 font-mono text-sm">
-				{#each commands as command, index}
+				{#each commands as command, index (command[1])}
 					<div class="grid grid-cols-[1.3rem_1fr] gap-2 rounded-lg px-2 py-2.5 hover:bg-white/5">
 						<span class="select-none text-slate-600">{String(index + 1).padStart(2, '0')}</span>
 						<div>
@@ -102,7 +102,7 @@
 		</div>
 
 		<div class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-			{#each features as feature}
+			{#each features as feature (feature.title)}
 				<article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-900/70">
 					<div class="mb-5 grid size-9 place-items-center rounded-xl bg-indigo-50 text-sm font-bold text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300">✓</div>
 					<h3 class="font-semibold text-slate-950 dark:text-white">{feature.title}</h3>

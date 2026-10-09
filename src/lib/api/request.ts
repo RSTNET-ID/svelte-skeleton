@@ -18,7 +18,7 @@ export function buildApiUrl(baseUrl: string, path: string): string {
 	const base = baseUrl === '/' ? '' : baseUrl.replace(/\/+$/, '');
 	const suffix = path.replace(/^\/+/, '');
 
-	return suffix ? `${base}/${suffix}` || `/${suffix}` : base || '/';
+	return suffix ? `${base}/${suffix}` : base || '/';
 }
 
 function parseJson(text: string): unknown {
