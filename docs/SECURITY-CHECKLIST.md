@@ -1,6 +1,7 @@
 # Skeleton Security Checklist
 
 ## CMS authorization
+
 - Bun is the source of truth for authentication, authorization and tenant scoping.
 - The CMS layout checks `/auth/me` to render its shell.
 - Privileged example routes additionally enforce permissions in `+page.server.ts`.
@@ -8,6 +9,7 @@
 - Hidden menu items are presentation only, never authorization.
 
 ## Direct-to-MinIO uploads
+
 - Frontend obtains short-lived presigned PUT tickets from Bun.
 - Each FileUpload instance requires explicit `allowedUploadOrigins`. Never trust arbitrary signed URL hosts or forward session credentials to the signed upload host.
 - Production upload URLs must be HTTPS, with localhost HTTP allowed only for configured development origins.
@@ -17,6 +19,7 @@
 - Abort and stale completion should not report a cancelled upload as successful.
 
 ## Remaining deployment responsibilities
+
 - Implement production session login/logout and CSRF strategy in Bun.
 - Set secure proxy/TLS headers, HSTS and trusted-forwarder configuration at the edge.
 - Apply rate limits, validation and tenant scoping in backend endpoints.

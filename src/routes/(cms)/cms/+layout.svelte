@@ -15,7 +15,12 @@
 	const permissions = $derived(page.data.user?.permissions ?? []);
 	const menu = [
 		{ href: '/cms', title: 'nav.dashboard', icon: LayoutDashboard, permission: undefined },
-		{ href: '/cms/components', title: 'nav.components', icon: PanelsTopLeft, permission: 'cms.components.read' }
+		{
+			href: '/cms/components',
+			title: 'nav.components',
+			icon: PanelsTopLeft,
+			permission: 'cms.components.read'
+		}
 	];
 	const visibleMenu = $derived(menu.filter((item) => canAccess(permissions, item.permission)));
 </script>
@@ -81,7 +86,14 @@
 			</div>
 		</header>
 		<main class="mx-auto max-w-7xl space-y-5 px-5 py-8 sm:px-8">
-			<Breadcrumb items={[{ label: translate(page.data.locale ?? 'id', 'nav.dashboard'), href: '/cms' }, ...(page.url.pathname === '/cms' ? [] : [{ label: translate(page.data.locale ?? 'id', 'nav.components') }])]} />
+			<Breadcrumb
+				items={[
+					{ label: translate(page.data.locale ?? 'id', 'nav.dashboard'), href: '/cms' },
+					...(page.url.pathname === '/cms'
+						? []
+						: [{ label: translate(page.data.locale ?? 'id', 'nav.components') }])
+				]}
+			/>
 			{@render children()}
 		</main>
 	</div>
