@@ -128,3 +128,5 @@ Run Playwright when behavior visible in the browser changed.
 **FORBIDDEN:** Per-keypress AJAX network calls. `SelectAjax` uses debounce after typing stops, AbortController, stale result protection and `resolve(id)` for edit preselection.
 
 Code review rejection criteria: any new page-local native input, duplicated helper, bypass of server auth boundary, or untested shared helper. Do not claim completion until full CI is green.
+
+- **Select (regular)** MUST be used for local/static/preloaded options. **SelectAjax** MUST be used for backend-filtered datasets. Never implement a native `<select>` inside a page.

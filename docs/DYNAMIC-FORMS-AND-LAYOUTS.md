@@ -56,3 +56,16 @@ Pages MUST NOT use native `input`, `select`, or `textarea` elements directly. Bu
 ## Helpers
 
 Reusable pure utilities live in `src/lib/helpers`. Helpers are imported from `#lib/helpers/index.ts`; do not duplicate implementations in feature folders without an explicit domain-specific reason.
+
+## Regular Select vs SelectAjax
+
+Use `Select` for provided/local options; use `SelectAjax` when options are fetched and searched from Bun. Both are reusable and bind their selected value. Example:
+
+```svelte
+<script lang="ts">
+  import { Select } from '#lib/components/ui/index.ts';
+  let status = $state('active');
+  const options = [{ value: 'active', label: 'Aktif' }, { value: 'inactive', label: 'Nonaktif' }];
+</script>
+<Select label="Status" name="status" {options} bind:value={status} />
+```

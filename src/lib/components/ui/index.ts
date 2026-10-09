@@ -9,3 +9,4 @@ export { default as EmptyState } from './EmptyState.svelte';
 export { default as AutoNumericInput } from './AutoNumericInput.svelte';
 export { default as DatePicker } from './DatePicker.svelte';
 export { default as SelectAjax } from './SelectAjax.svelte';
+export { default as Select } from './Select.svelte';

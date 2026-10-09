@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 // Reject raw form controls outside the shared UI component layer.
-const forbidden = /<\s*(input|select|textarea)\b/gi;
+const forbidden = /<\s*(input|select|textarea)\b/g;
 const failures: string[] = [];
 const allowed = 'src/lib/components/ui';
 

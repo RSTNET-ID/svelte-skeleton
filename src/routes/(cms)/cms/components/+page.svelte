@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { AutoNumericInput, DatePicker, SelectAjax } from '#lib/components/ui/index.ts';
+  import { AutoNumericInput, DatePicker, Select, SelectAjax } from '#lib/components/ui/index.ts';
   import type { SelectOption } from '#lib/components/ui/SelectAjax.svelte';
 
   let nominal = $state<string | null>('2500000');
@@ -7,6 +7,8 @@
   let tanggal = $state('');
   let rentang = $state('');
   let jam = $state('');
+  let status = $state('active');
+  const statuses = [{ value: 'active', label: 'Aktif' }, { value: 'inactive', label: 'Nonaktif' }];
   let userId = $state<string | null>(null);
   let userOption = $state<SelectOption | null>(null);
 
@@ -39,8 +41,9 @@
     <DatePicker label="Tanggal" bind:value={tanggal} name="date" />
     <DatePicker label="Rentang tanggal" mode="range" bind:value={rentang} name="range" />
     <DatePicker label="Jam" timeOnly bind:value={jam} name="time" />
+    <Select label="Status (local)" name="status" options={statuses} bind:value={status} />
     <SelectAjax label="Pilih user" name="user_id" bind:value={userId} bind:selectedOption={userOption} search={searchUsers} resolve={resolveUser} />
   </section>
-  <pre class="overflow-x-auto rounded-2xl bg-slate-950 p-5 font-mono text-xs leading-6 text-slate-200">{JSON.stringify({ nominal, percent, tanggal, rentang, jam, userId }, null, 2)}</pre>
+  <pre class="overflow-x-auto rounded-2xl bg-slate-950 p-5 font-mono text-xs leading-6 text-slate-200">{JSON.stringify({ nominal, percent, tanggal, rentang, jam, status, userId }, null, 2)}</pre>
   <p class="text-sm text-slate-500">SelectAjax membutuhkan endpoint Bun untuk pencarian dan resolusi ID. Nominal dan persentase mengembalikan raw numeric string.</p>
 </div>
