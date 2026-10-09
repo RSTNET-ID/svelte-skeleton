@@ -190,3 +190,11 @@ Code review rejection criteria: any new page-local native input, duplicated help
 - FileUpload MUST receive an explicit exact-origin allowlist. Never use arbitrary presigned URLs, wildcard domains, or forward cookies to object storage.
 - Every restricted CMS route MUST have server-side permission verification; sidebar filtering is not authorization.
 - Any shared security guard requires positive and negative regression tests. Do not treat this baseline as production certification.
+
+## Runtime contracts and module scaffolding
+
+- When backend response integrity matters, pass an explicit `(payload: unknown) => T` decoder as the third argument to `requestJson` rather than relying on generics alone.
+- Never treat TypeScript interfaces as runtime validation. Prefer small domain-specific validators; avoid a mandatory schema runtime in the skeleton.
+- Generate new frontend feature modules with `bun run make:module <kebab-name>`; adjust the Bun endpoint and validate its response before production usage.
+- Never overwrite existing generated modules; use interface DTOs, and keep business validation, permission checks and tenant isolation on Bun.
+- Treat `docs/RELEASE-CHECKLIST.md` as the v1.0.0 acceptance gate. CI passing does not override unchecked security and accessibility requirements.

@@ -27,3 +27,5 @@
 - Keep dependency lockfile committed; verify production Docker build and scanners in a supported runtime.
 
 This is a reusable baseline, not a completed security assessment of the applications derived from it.
+
+API consumer modules can supply a runtime decoder to `requestJson(fetcher, options, decode)`; TypeScript generics by themselves do not validate external JSON.

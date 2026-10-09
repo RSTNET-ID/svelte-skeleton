@@ -27,7 +27,8 @@
 		"test:unit:watch": "vitest",
 		"test:e2e": "playwright test",
 		"ci": "bun run check:components && bun run check && bun run lint && bun run format:check && bun run test:unit && bun run --bun build",
-		"check:components": "bun scripts/check-base-components.ts"
+		"check:components": "bun scripts/check-base-components.ts",
+		"make:module": "bun scripts/make-module.ts"
 	},
 	"devDependencies": {
 		"@eslint/js": "10.0.1",

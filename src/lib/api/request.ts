@@ -1,6 +1,8 @@
 import { ApiError } from './error.ts';
 
-export type Fetcher = (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;
+export type JsonDecoder<T> = (payload: unknown) => T;
+
+export type Fetcher =  (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;
 
 export interface ApiRequestOptions extends Omit<RequestInit, 'body' | 'signal'> {
 	baseUrl: string;
@@ -49,7 +51,7 @@ function codeFrom(payload: unknown): string | undefined {
 	return undefined;
 }
 
-export async function requestJson<T>(fetcher: Fetcher, options: ApiRequestOptions): Promise<T> {
+export async function requestJson<T>(fetcher: Fetcher, options: ApiRequestOptions, decode?: JsonDecoder<T>): Promise<T> {
 	const {
 		baseUrl,
 		path,
@@ -113,7 +115,7 @@ export async function requestJson<T>(fetcher: Fetcher, options: ApiRequestOption
 			});
 		}
 
-		return payload as T;
+		return decode ? decode(payload) : (payload as T);
 	} catch (error) {
 		if (controller.signal.aborted && !externalSignal?.aborted) {
 			throw new ApiError('API request timed out', {
