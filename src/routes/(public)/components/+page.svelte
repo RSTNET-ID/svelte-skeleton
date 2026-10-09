@@ -18,7 +18,10 @@
 	let submitted = $state(false);
 	let activeTab = $state('first');
 	let accepted = $state(false);
-	const sampleTabs = [{ value: 'first', label: 'First' }, { value: 'second', label: 'Second' }];
+	const sampleTabs = [
+		{ value: 'first', label: 'First' },
+		{ value: 'second', label: 'Second' }
+	];
 </script>
 
 <svelte:head>

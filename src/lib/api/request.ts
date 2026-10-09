@@ -2,7 +2,7 @@ import { ApiError } from './error.ts';
 
 export type JsonDecoder<T> = (payload: unknown) => T;
 
-export type Fetcher =  (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;
+export type Fetcher = (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;
 
 export interface ApiRequestOptions extends Omit<RequestInit, 'body' | 'signal'> {
 	baseUrl: string;
@@ -51,7 +51,11 @@ function codeFrom(payload: unknown): string | undefined {
 	return undefined;
 }
 
-export async function requestJson<T>(fetcher: Fetcher, options: ApiRequestOptions, decode?: JsonDecoder<T>): Promise<T> {
+export async function requestJson<T>(
+	fetcher: Fetcher,
+	options: ApiRequestOptions,
+	decode?: JsonDecoder<T>
+): Promise<T> {
 	const {
 		baseUrl,
 		path,
