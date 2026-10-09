@@ -79,3 +79,34 @@ Run Playwright when behavior visible in the browser changed.
 - Update `.env.example` when environment variables change.
 - Update backend integration docs when request/auth/proxy conventions change.
 - Update the README when commands, minimum versions, or deployment behavior changes.
+
+
+## Shared UI component rules
+
+- Reusable primitives belong in `src/lib/components/ui`, one PascalCase component per file, exported through `index.ts`.
+- Compose with Svelte 5 `Snippet`, `$props()`, `$bindable()`, and `{@render ...}`. Do not add new Svelte 4 slot/event-dispatch patterns.
+- Use native semantic HTML before recreating browser controls in JavaScript.
+- A form field must have a visible label, stable ID, associated errors/hints and appropriate invalid state.
+- Buttons default to `type="button"` and expose loading/disabled state.
+- Do not style by constructing Tailwind class names dynamically from pieces. Use explicit complete strings in variant maps so the compiler can discover the classes.
+- Use the provided tokens/variants before adding another palette. UI components must work in light and dark mode and with keyboard-only input.
+- Avoid unnecessary abstractions: base controls are not a reason to build a large design-system framework.
+- Page-specific composite components belong alongside their feature/route, not automatically in the UI primitives folder.
+- The `/components` route demonstrates UI primitives. Keep examples in sync when components change.
+
+## Agent execution protocol
+
+1. Inspect existing files and relevant docs before edits. Never assume an old SvelteKit tutorial applies.
+2. State the intended scope and identify affected layers (UI, API, server, tests, deployment).
+3. Prefer minimal, localized changes; do not reformat unrelated files.
+4. Implement and document behavioral changes together. Add regression coverage when feasible.
+5. Run quality checks; explicitly report commands not run, failures and environmental blockers.
+6. Do not claim tests passed or deployment succeeded without observing those results.
+7. Never expose secrets, production customer data, or credentials in prompts, commits or logs.
+8. Never silently change public API signatures, environment contracts, security defaults, or auth behavior.
+9. When editing a shared primitive, consider accessibility, theme support, keyboard behavior, SSR, and hydration.
+10. Preserve compatibility with the Bun backend; the frontend must not become a parallel owner of business rules.
+
+## Agent entrypoints
+
+`AGENTS.md` is canonical for every agent. `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`, and `.cursor/rules/svelte-skeleton.mdc` point back here and only describe tooling-specific workflows. Resolve conflicts by following this file; security rules take precedence.
