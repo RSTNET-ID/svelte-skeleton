@@ -7,7 +7,16 @@ updates:
       day: monday
       time: '03:00'
       timezone: Asia/Jakarta
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 5
+    groups:
+      bun-minor-and-patch:
+        update-types:
+          - minor
+          - patch
+    ignore:
+      - dependency-name: typescript
+        update-types:
+          - version-update:semver-major
     labels:
       - dependencies
 
