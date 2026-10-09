@@ -8,7 +8,9 @@
 <div class="space-y-5">
 	<div>
 		<p class="text-sm text-indigo-600 dark:text-indigo-400">Dashboard</p>
-		<h1 class="mt-1 text-3xl font-bold">{translate(page.data.locale ?? 'id', 'cms.welcome', { name: data.user.name })}</h1>
+		<h1 class="mt-1 text-3xl font-bold">
+			{translate(page.data.locale ?? 'id', 'cms.welcome', { name: data.user.name })}
+		</h1>
 	</div>
 	<p class="max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-400">
 		Layout CMS dipisahkan dari website publik. Server-side guard memverifikasi session melalui

@@ -46,7 +46,10 @@
 						size={17}
 						aria-hidden="true"
 						class="mr-2 inline-block align-text-bottom"
-					/>{translate(page.data.locale ?? 'id', item.title as 'nav.dashboard' | 'nav.components')}</a
+					/>{translate(
+						page.data.locale ?? 'id',
+						item.title as 'nav.dashboard' | 'nav.components'
+					)}</a
 				>
 			{/each}
 		</nav>
@@ -65,10 +68,13 @@
 					aria-expanded={mobileOpen}
 					onclick={() => (mobileOpen = true)}><Menu size={18} aria-hidden="true" /></Button
 				>
-				<span class="text-sm font-semibold">{translate(page.data.locale ?? 'id', 'cms.title')}</span>
+				<span class="text-sm font-semibold">{translate(page.data.locale ?? 'id', 'cms.title')}</span
+				>
 			</div>
 			<div class="flex items-center gap-3">
-				<a href="/" class="text-sm text-indigo-600 dark:text-indigo-300">{translate(page.data.locale ?? 'id', 'nav.website')}</a><LanguageSwitcher /><ThemeToggle />
+				<a href="/" class="text-sm text-indigo-600 dark:text-indigo-300"
+					>{translate(page.data.locale ?? 'id', 'nav.website')}</a
+				><LanguageSwitcher /><ThemeToggle />
 			</div>
 		</header>
 		<main class="mx-auto max-w-7xl px-5 py-8 sm:px-8">{@render children()}</main>
