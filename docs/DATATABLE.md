@@ -10,15 +10,21 @@ The Bun backend MUST enforce a bounded limit, stable keyset ordering (e.g. `crea
 
 ```ts
 import type { CursorPageQuery, CursorPageResponse } from '#lib/api/contracts.ts';
-interface User { id: string; name: string }
-async function fetchUsers(query: CursorPageQuery, signal: AbortSignal): Promise<CursorPageResponse<User>> {
-  const params = new URLSearchParams({ limit: String(query.limit), search: query.search ?? '' });
-  if (query.cursor) params.set('cursor', query.cursor);
-  if (query.sortBy) params.set('sortBy', query.sortBy);
-  if (query.sortDir) params.set('sortDir', query.sortDir);
-  const response = await fetch('/api/users?' + params, { signal, credentials: 'include' });
-  if (!response.ok) throw new Error('Unable to load users');
-  return response.json(); // validate structure at the API boundary in production
+interface User {
+	id: string;
+	name: string;
+}
+async function fetchUsers(
+	query: CursorPageQuery,
+	signal: AbortSignal
+): Promise<CursorPageResponse<User>> {
+	const params = new URLSearchParams({ limit: String(query.limit), search: query.search ?? '' });
+	if (query.cursor) params.set('cursor', query.cursor);
+	if (query.sortBy) params.set('sortBy', query.sortBy);
+	if (query.sortDir) params.set('sortDir', query.sortDir);
+	const response = await fetch('/api/users?' + params, { signal, credentials: 'include' });
+	if (!response.ok) throw new Error('Unable to load users');
+	return response.json(); // validate structure at the API boundary in production
 }
 ```
 

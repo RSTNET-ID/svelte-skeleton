@@ -10,7 +10,12 @@
 		sortable?: boolean;
 		value?: (row: T) => string | number | null | undefined;
 	};
-	type DataPage<T> = { items: T[]; nextCursor: string | null; hasNextPage: boolean; total?: number };
+	type DataPage<T> = {
+		items: T[];
+		nextCursor: string | null;
+		hasNextPage: boolean;
+		total?: number;
+	};
 	type DataQuery = {
 		cursor: string | null;
 		limit: number;
@@ -214,20 +219,18 @@
 		</table>
 	</div>
 	<div class="flex flex-wrap items-center justify-between gap-3 text-sm">
-		<span aria-live="polite">{total === undefined ? translate(locale, 'table.unknownTotal') : translate(locale, 'table.total', { total })}</span>
+		<span aria-live="polite"
+			>{total === undefined
+				? translate(locale, 'table.unknownTotal')
+				: translate(locale, 'table.total', { total })}</span
+		>
 		<div class="flex items-center gap-3">
-			<Button
-				variant="outline"
-				size="sm"
-				disabled={loading || cursorIndex === 0}
-				onclick={goBack}>{translate(locale, 'table.previous')}</Button
+			<Button variant="outline" size="sm" disabled={loading || cursorIndex === 0} onclick={goBack}
+				>{translate(locale, 'table.previous')}</Button
 			>
 			<span>{translate(locale, 'table.cursorPage', { page: cursorIndex + 1 })}</span>
-			<Button
-				variant="outline"
-				size="sm"
-				disabled={loading || !hasNextPage}
-				onclick={goNext}>{translate(locale, 'table.next')}</Button
+			<Button variant="outline" size="sm" disabled={loading || !hasNextPage} onclick={goNext}
+				>{translate(locale, 'table.next')}</Button
 			>
 		</div>
 	</div>
