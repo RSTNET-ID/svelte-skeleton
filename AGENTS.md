@@ -33,7 +33,11 @@ These rules apply to AI coding agents and human contributors working from this s
 ## TypeScript
 
 - Keep strict TypeScript enabled.
-- Avoid `any`; use `unknown` at untrusted boundaries and narrow it.
+- Explicit `any` is forbidden by ESLint. Prefer `unknown` at untrusted boundaries, runtime narrowing, generics, or typed utility contracts.
+- Use `interface` for stable object-shaped domain, DTO, API and component prop contracts. Use `type` for unions, mapped/conditional types, primitives and function aliases.
+- Use `ApiResponse<T>`, `PaginatedResponse<T>` and `ApiFieldErrors` from `#lib/api/contracts.ts` when the Bun endpoint follows those contracts. Do not assume all API endpoints return a common envelope.
+- `requestJson<T>()` types caller expectations; it does NOT validate JSON at runtime. Validate untrusted responses at boundaries when correctness/security depends on their shape.
+- If a third-party declaration truly forces `any`, add an explicit, narrowly-scoped `eslint-disable-next-line @typescript-eslint/no-explicit-any -- <reason>` on that line only. Never disable `strict`, `noImplicitAny` or the ESLint rule globally.
 - Keep stable API/domain response types explicit.
 - Treat network, storage, URL params, form data, and environment inputs as untrusted until validated.
 
