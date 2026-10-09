@@ -4,33 +4,33 @@ Reusable primitives live at `src/lib/components/ui` and are re-exported from `sr
 
 ## Included
 
-| Component | Responsibility |
-| --- | --- |
-| `Button` | Primary/secondary/outline/ghost/danger actions, sizes, loading state |
-| `Input` | Accessible labeled input with two-way binding and validation feedback |
-| `Textarea` | Accessible labeled multiline field with validation feedback |
-| `Badge` | Small neutral/info/success/warning/danger status |
-| `Card` | Content container with optional header/footer snippets |
-| `Alert` | Inline informational and error feedback |
-| `Spinner` | Progress state with accessible status text |
-| `EmptyState` | No-results screen with an optional action snippet |
+| Component    | Responsibility                                                        |
+| ------------ | --------------------------------------------------------------------- |
+| `Button`     | Primary/secondary/outline/ghost/danger actions, sizes, loading state  |
+| `Input`      | Accessible labeled input with two-way binding and validation feedback |
+| `Textarea`   | Accessible labeled multiline field with validation feedback           |
+| `Badge`      | Small neutral/info/success/warning/danger status                      |
+| `Card`       | Content container with optional header/footer snippets                |
+| `Alert`      | Inline informational and error feedback                               |
+| `Spinner`    | Progress state with accessible status text                            |
+| `EmptyState` | No-results screen with an optional action snippet                     |
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Button, Input, Card, Badge } from '#lib/components/ui/index.ts';
+	import { Button, Input, Card, Badge } from '#lib/components/ui/index.ts';
 
-  let query = $state('');
+	let query = $state('');
 </script>
 
 <Card>
-  {#snippet header()}<h2>Search</h2>{/snippet}
-  <Input label="Search term" bind:value={query} placeholder="Type something" />
-  <div class="mt-4 flex items-center gap-3">
-    <Button onclick={() => console.log(query)}>Search</Button>
-    <Badge tone="info">Ready</Badge>
-  </div>
+	{#snippet header()}<h2>Search</h2>{/snippet}
+	<Input label="Search term" bind:value={query} placeholder="Type something" />
+	<div class="mt-4 flex items-center gap-3">
+		<Button onclick={() => console.log(query)}>Search</Button>
+		<Badge tone="info">Ready</Badge>
+	</div>
 </Card>
 ```
 

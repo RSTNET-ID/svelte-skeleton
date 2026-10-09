@@ -16,12 +16,20 @@ Route groups in parentheses do not appear in URL paths. The example CMS guard re
 
 ```svelte
 <script lang="ts">
-  import { AutoNumericInput } from '#lib/components/ui/index.ts';
-  let amount = $state<string | null>('125000');
-  let percent = $state<string | null>('12.5');
+	import { AutoNumericInput } from '#lib/components/ui/index.ts';
+	let amount = $state<string | null>('125000');
+	let percent = $state<string | null>('12.5');
 </script>
+
 <AutoNumericInput label="Nominal" kind="currency" name="amount" bind:value={amount} />
-<AutoNumericInput label="Diskon" kind="percent" name="discount" bind:value={percent} minimumValue="0" maximumValue="100" />
+<AutoNumericInput
+	label="Diskon"
+	kind="percent"
+	name="discount"
+	bind:value={percent}
+	minimumValue="0"
+	maximumValue="100"
+/>
 ```
 
 Formatting defaults use Indonesian thousands and decimal separators. Values are raw decimal strings. A 12.5 percent value emits `12.5` (not 0.125). Use decimal-safe arithmetic for money in the backend, never depend on UI validation alone.
@@ -63,9 +71,13 @@ Use `Select` for provided/local options; use `SelectAjax` when options are fetch
 
 ```svelte
 <script lang="ts">
-  import { Select } from '#lib/components/ui/index.ts';
-  let status = $state('active');
-  const options = [{ value: 'active', label: 'Aktif' }, { value: 'inactive', label: 'Nonaktif' }];
+	import { Select } from '#lib/components/ui/index.ts';
+	let status = $state('active');
+	const options = [
+		{ value: 'active', label: 'Aktif' },
+		{ value: 'inactive', label: 'Nonaktif' }
+	];
 </script>
+
 <Select label="Status" name="status" {options} bind:value={status} />
 ```

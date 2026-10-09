@@ -52,11 +52,11 @@ bun ./build             # Run the adapter-bun production output
 
 ## Environment
 
-| Variable | Visibility | Default | Purpose |
-| --- | --- | --- | --- |
-| `API_BASE_URL` | Private | `http://127.0.0.1:3000/api` | Server-to-server Bun API base URL |
-| `API_TIMEOUT_MS` | Private | `10000` | Backend request timeout |
-| `PUBLIC_API_BASE_URL` | Public | `/api` | Browser-visible API base URL |
+| Variable              | Visibility | Default                     | Purpose                           |
+| --------------------- | ---------- | --------------------------- | --------------------------------- |
+| `API_BASE_URL`        | Private    | `http://127.0.0.1:3000/api` | Server-to-server Bun API base URL |
+| `API_TIMEOUT_MS`      | Private    | `10000`                     | Backend request timeout           |
+| `PUBLIC_API_BASE_URL` | Public     | `/api`                      | Browser-visible API base URL      |
 
 Variables are declared and validated in `src/env.ts`. Private values are only imported from `$app/env/private`; public values use `$app/env/public`.
 
@@ -70,7 +70,7 @@ Browser-side requests:
 import { apiFetch } from '#lib/api/client.ts';
 
 const profile = await apiFetch<Profile>({
-  path: '/me'
+	path: '/me'
 });
 ```
 
@@ -80,11 +80,11 @@ Server-side requests from `+page.server.ts`, `+layout.server.ts`, actions, or en
 import { backendApi } from '#lib/server/backend-api.ts';
 
 export async function load(event) {
-  const profile = await backendApi<Profile>(event, {
-    path: '/me'
-  });
+	const profile = await backendApi<Profile>(event, {
+		path: '/me'
+	});
 
-  return { profile };
+	return { profile };
 }
 ```
 

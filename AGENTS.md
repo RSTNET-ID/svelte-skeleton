@@ -80,7 +80,6 @@ Run Playwright when behavior visible in the browser changed.
 - Update backend integration docs when request/auth/proxy conventions change.
 - Update the README when commands, minimum versions, or deployment behavior changes.
 
-
 ## Shared UI component rules
 
 - Reusable primitives belong in `src/lib/components/ui`, one PascalCase component per file, exported through `index.ts`.

@@ -63,7 +63,10 @@ export async function requestJson<T>(fetcher: Fetcher, options: ApiRequestOption
 	} = options;
 
 	const controller = new AbortController();
-	const timeoutId = setTimeout(() => controller.abort(new Error('API request timed out')), timeoutMs);
+	const timeoutId = setTimeout(
+		() => controller.abort(new Error('API request timed out')),
+		timeoutMs
+	);
 	const abort = () => controller.abort(externalSignal?.reason);
 
 	if (externalSignal) {

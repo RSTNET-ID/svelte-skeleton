@@ -26,8 +26,8 @@ Use `apiFetch` for calls that are intentionally made by browser JavaScript:
 import { apiFetch } from '#lib/api/client.ts';
 
 const result = await apiFetch<User>({
-  path: '/v1/me',
-  method: 'GET'
+	path: '/v1/me',
+	method: 'GET'
 });
 ```
 
@@ -42,11 +42,11 @@ import { backendApi } from '#lib/server/backend-api.ts';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {
-  const dashboard = await backendApi<Dashboard>(event, {
-    path: '/v1/dashboard'
-  });
+	const dashboard = await backendApi<Dashboard>(event, {
+		path: '/v1/dashboard'
+	});
 
-  return { dashboard };
+	return { dashboard };
 };
 ```
 
@@ -54,8 +54,8 @@ The helper forwards `authorization` and `cookie` headers by default. Disable for
 
 ```ts
 const catalog = await backendApi<Catalog>(event, {
-  path: '/v1/catalog',
-  forwardAuth: false
+	path: '/v1/catalog',
+	forwardAuth: false
 });
 ```
 
@@ -65,11 +65,11 @@ The transport layer understands a minimal error shape without forcing it:
 
 ```json
 {
-  "message": "Validation failed",
-  "code": "VALIDATION_ERROR",
-  "fields": {
-    "email": ["invalid"]
-  }
+	"message": "Validation failed",
+	"code": "VALIDATION_ERROR",
+	"fields": {
+		"email": ["invalid"]
+	}
 }
 ```
 

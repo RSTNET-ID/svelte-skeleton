@@ -1,18 +1,18 @@
 version: 2
 updates:
   - package-ecosystem: bun
-    directory: "/"
+    directory: '/'
     schedule:
       interval: weekly
       day: monday
-      time: "03:00"
+      time: '03:00'
       timezone: Asia/Jakarta
     open-pull-requests-limit: 10
     labels:
       - dependencies
 
   - package-ecosystem: github-actions
-    directory: "/"
+    directory: '/'
     schedule:
       interval: monthly
     labels:
@@ -20,7 +20,7 @@ updates:
       - github-actions
 
   - package-ecosystem: docker
-    directory: "/"
+    directory: '/'
     schedule:
       interval: monthly
     labels:
