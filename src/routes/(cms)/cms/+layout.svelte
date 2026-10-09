@@ -39,8 +39,12 @@
 					onclick={() => (mobileOpen = false)}
 					aria-current={page.url.pathname === item.href ? 'page' : undefined}
 					class={`block rounded-xl px-3 py-2 text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 ${page.url.pathname === item.href ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300' : ''}`}
-					>
-						<item.icon size={17} aria-hidden="true" class="mr-2 inline-block align-text-bottom" />{item.title}</a
+				>
+					<item.icon
+						size={17}
+						aria-hidden="true"
+						class="mr-2 inline-block align-text-bottom"
+					/>{item.title}</a
 				>
 			{/each}
 		</nav>

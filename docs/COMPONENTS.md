@@ -69,6 +69,7 @@ Use lightweight Lucide SVG icons through **per-icon subpath imports**:
 	import Search from '@lucide/svelte/icons/search';
 	import { Button } from '#lib/components/ui/index.ts';
 </script>
+
 <Button aria-label="Cari"><Search size={18} aria-hidden="true" /></Button>
 ```
 
