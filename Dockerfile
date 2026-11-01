@@ -1,4 +1,4 @@
-FROM oven/bun:1.4.2-alpine AS dependencies
+FROM oven/bun:1.4.4-alpine AS dependencies
 WORKDIR /app
 COPY package.json ./
 RUN bun install
@@ -7,7 +7,7 @@ FROM dependencies AS build
 COPY . .
 RUN bun run --bun build
 
-FROM oven/bun:1.4.2-alpine AS runtime
+FROM oven/bun:1.4.4-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production \
     HOST=0.0.0.0 \
